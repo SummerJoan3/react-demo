@@ -1,15 +1,9 @@
-import React from 'react'
-import Button from './component/button'
-import Test from './pages/test'
-class App extends React.Component {
+import React from 'react';
+import App from './pages';
+class RouterApp extends React.Component {
   render() {
-    return (
-      <div>
-        <Button></Button>
-        <Test></Test>
-      </div>
-    )
+    return <App />;
   }
 }
 
-export default App
+export default RouterApp;
