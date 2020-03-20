@@ -1,7 +1,8 @@
-const path = require('path')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const devMode = process.env.NODE_ENV !== 'production'
+/* eslint-disable no-undef */
+const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const devMode = process.env.NODE_ENV !== 'production';
 module.exports = {
   entry: './index.js',
   output: {
@@ -32,4 +33,4 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, 'dist')
   }
-}
+};
