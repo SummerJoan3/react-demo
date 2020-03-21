@@ -17,8 +17,13 @@ module.exports = {
         loader: 'babel-loader'
       },
       {
-        test: /\.scss$/,
-        use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader?modules=true', 'sass-loader']
+        test: /\.(sc|c|le)ss$/,
+        use: [
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader?modules=true',
+          'sass-loader',
+          'less-loader?javascriptEnabled=true'
+        ]
       }
     ]
   },
