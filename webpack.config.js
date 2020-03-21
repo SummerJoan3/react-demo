@@ -3,6 +3,7 @@ const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const devMode = process.env.NODE_ENV !== 'production';
+
 module.exports = {
   entry: './index.js',
   output: {
@@ -17,13 +18,13 @@ module.exports = {
         loader: 'babel-loader'
       },
       {
-        test: /\.(sc|c|le)ss$/,
-        use: [
-          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader?modules=true',
-          'sass-loader',
-          'less-loader?javascriptEnabled=true'
-        ]
+        test: /\.(sc|c)ss$/,
+        use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader?modules=true', 'sass-loader']
+      },
+      {
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', 'less-loader?javascriptEnabled=true'],
+        include: path.resolve(__dirname, 'node_modules')
       }
     ]
   },
