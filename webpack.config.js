@@ -1,9 +1,8 @@
 /* eslint-disable no-undef */
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const devMode = process.env.NODE_ENV !== 'production';
-
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: './index.js',
   output: {
@@ -28,13 +27,7 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new UglifyJsPlugin(),
-    new MiniCssExtractPlugin({
-      filename: devMode ? '[name].css' : '[name].css',
-      chunkFilename: devMode ? '[id].css' : '[id].css'
-    })
-  ],
+  plugins: [new HtmlWebpackPlugin({ template: './public/index.html' })],
   devtool: 'cheap-module-eval-source-map',
   devServer: {
     contentBase: path.join(__dirname, 'dist')
