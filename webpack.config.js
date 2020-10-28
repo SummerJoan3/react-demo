@@ -1,35 +1,53 @@
 /* eslint-disable no-undef */
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const devMode = process.env.NODE_ENV !== 'production';
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
   entry: './index.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './public'),
     filename: 'bundle.js'
   },
+  cache: true,
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        options: {
+          cacheDirectory: true
+        }
       },
       {
         test: /\.(sc|c)ss$/,
-        use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader?modules=true', 'sass-loader']
+        use: ['style-loader', 'css-loader?modules=true', 'sass-loader']
       },
       {
         test: /\.less$/,
-        use: ['style-loader', 'css-loader', 'less-loader?javascriptEnabled=true'],
-        include: path.resolve(__dirname, 'node_modules')
+        use: ['style-loader', 'css-loader', 'less-loader?javascriptEnabled=true']
       }
     ]
   },
-  plugins: [new HtmlWebpackPlugin({ template: './public/index.html' })],
-  devtool: 'cheap-module-eval-source-map',
+  plugins: [
+    new HardSourceWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      template: './public/index.html'
+    })
+  ],
+  devtool: '',
   devServer: {
-    contentBase: path.join(__dirname, 'dist')
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:10088',
+        // changeOrigin: true, // target是域名的话，需要这个参数，
+        secure: false // 设置支持https协议的代理
+      }
+    },
+    contentBase: path.join(__dirname, './public'),
+    hot: true,
+    publicPath: '/',
+    historyApiFallback: true
   }
 };
